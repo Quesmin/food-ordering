@@ -150,12 +150,13 @@ int main() {
                 else
                     printf("Cutlery: no\n");
                 double total=0;
-                printf("Additional info: %s\n", AddInfo);
+                if(AddInfo[0] != '\0')
+                printf("Additional info: \"%s\"\n", AddInfo);
                 if(Drink == noOfDrinks)
                      total = FoodPrice[Food][Type];
                 else
                      total = FoodPrice[Food][Type] + DrinkPrice[Drink];
-                printf("Patment amount: %.2f\n", total);
+                printf("Payment amount: %.2f RON\n", total);
                 printf("-------------------\n");
                 printf("a) Confirm order\n");
                 printf("b) Go back\n");
