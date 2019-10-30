@@ -164,7 +164,7 @@ int main() {
                 getchar();
                 if(choice == 'a' + 1)
                 {
-                    state--;
+                    state = 4;
                     break;
                 }
                 orderPlaced = 1;
