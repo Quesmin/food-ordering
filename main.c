@@ -146,16 +146,17 @@ int main() {
                 if(Drink != noOfDrinks)
                     printf("---%s: %.2f RON\n", Drinks[Drink],DrinkPrice[Drink]);
                 if(Cutlery == 0)
-                printf("Cutlery: yes\n");
+                    printf("Cutlery: yes\n");
                 else
                     printf("Cutlery: no\n");
-                double total=0;
-                printf("Additional info: %s\n", AddInfo);
+                double total = 0;
+                if(AddInfo[0] != '\0')
+                    printf("Additional info: \"%s\"\n", AddInfo);
                 if(Drink == noOfDrinks)
-                     total = FoodPrice[Food][Type];
+                    total = FoodPrice[Food][Type];
                 else
-                     total = FoodPrice[Food][Type] + DrinkPrice[Drink];
-                printf("Patment amount: %.2f\n", total);
+                    total = FoodPrice[Food][Type] + DrinkPrice[Drink];
+                printf("Payment amount: %.2f RON\n", total);
                 printf("-------------------\n");
                 printf("a) Confirm order\n");
                 printf("b) Go back\n");
