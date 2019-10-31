@@ -175,6 +175,5 @@ int main() {
         }
     }
     printf("Order confirmed! Thank you for buying from us, %s!", username);
-
     return 0;
 }
