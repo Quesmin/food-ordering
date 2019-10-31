@@ -150,7 +150,7 @@ int main() {
                 else
                     printf("Cutlery: no\n");
                 double total = 0;
-                if(AddInfo[0] != '\0')
+                if(AddInfo[0] != '\0' && AddInfo[0] != '\n')
                     printf("Additional info: \"%s\"\n", AddInfo);
                 if(Drink == noOfDrinks)
                     total = FoodPrice[Food][Type];
@@ -174,7 +174,7 @@ int main() {
             }
         }
     }
-
+    printf("Order confirmed! Thank you for buying from us, %s!", username);
 
     return 0;
 }
