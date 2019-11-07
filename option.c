@@ -15,9 +15,8 @@ void printFoodTypes(int noOfFoodTypes, char FoodType[][MAX_FOOD_TYPE_NAME])
     printf("%c) Go back\n", 'a'+noOfFoodTypes);
 }
 
-void printFoodOptions(int noOfFoodOptions[], double FoodPrice[][FOOD_OPTIONS], char FoodType[][MAX_FOOD_TYPE_NAME], char FoodOption[][FOOD_OPTIONS][MAX_FOOD_OPTION_NAME], int Food)
+void printFoodOptions(int noOfFoodOptions[], double FoodPrice[][FOOD_OPTIONS], char FoodOption[][FOOD_OPTIONS][MAX_FOOD_OPTION_NAME], int Food)
 {
-    printf("Please choose the type of %s:\n", FoodType[Food]);
     for(int i=0; i<noOfFoodOptions[Food]; i++)
     {
         putchar('a'+i);
@@ -27,9 +26,8 @@ void printFoodOptions(int noOfFoodOptions[], double FoodPrice[][FOOD_OPTIONS], c
     printf(") Go back\n");
 }
 
-void printDrinkOptions(int noOfDrinks, double DrinkPrice[], char FoodType[][MAX_FOOD_TYPE_NAME], char Drinks[][MAX_DRINK_NAME], int Food)
+void printDrinkOptions(int noOfDrinks, double DrinkPrice[], char Drinks[][MAX_DRINK_NAME])
 {
-    printf("Please choose a drink to go with your %s:\n", FoodType[Food]);
     for(int i=0; i<noOfDrinks; i++)
     {
         putchar('a'+i);

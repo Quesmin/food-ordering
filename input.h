@@ -6,8 +6,8 @@
 #define FOOD_ORDERING_INPUT_H
 #include "constants.h"
 
-void getUserCredentials (char username[], char password[], int *state);
+void userCredentialsStep (char username[], char password[], int *state);
 int getChoiceIndex(int noOfFoodTypes, int *state);
-void getAdditionalInfo(char AddInfo[], int *state);
+void getAdditionalInfo(char AddInfo[]);
 
 #endif //FOOD_ORDERING_INPUT_H
