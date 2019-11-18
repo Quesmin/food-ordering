@@ -11,16 +11,16 @@ void printOrderHeader(char username[])
     printf("-------------------\n");
     printf("Name: %s\n", username);
 }
-void printOrderFood(char FoodOption[][FOOD_OPTIONS][MAX_FOOD_OPTION_NAME], double FoodPrice[][FOOD_OPTIONS], int Food, int Type )
+void printOrderFood(char* Food, double Price)
 {
     printf("Food items:\n");
-    printf("---%s: %.2f RON\n", FoodOption[Food][Type], FoodPrice[Food][Type]);
+    printf("---%s: %.2f RON\n", Food, Price);
 
 }
-void printOrderDrinks(char Drinks[][MAX_DRINK_NAME], double DrinkPrice[], int Drink, int noOfDrinks)
+void printOrderDrinks(char* Drink, double Price, int NoOfDrinks)
 {
-    if(Drink != noOfDrinks)
-        printf("---%s: %.2f RON\n", Drinks[Drink],DrinkPrice[Drink]);
+    if(Drink != NoOfDrinks)
+        printf("---%s: %.2f RON\n", Drink,Price);
 }
 void printOrderCutlery(int Cutlery)
 {
@@ -51,4 +51,19 @@ void orderConfirmation(int *state, int *orderPlaced)
         *state = 4;
     else
         *orderPlaced = 1;
+}
+void printOrder(char username[], char FoodOption[][FOOD_OPTIONS][MAX_FOOD_OPTION_NAME], double FoodPrice[][FOOD_OPTIONS], char Drinks[][MAX_DRINK_NAME],
+                double DrinkPrice[], char AddInfo[], int Cutlery, int Food, int Type, int Drink, int NoOfDrinks)
+{
+    printOrderHeader(username);
+    printOrderFood( FoodOption[Food][Type], FoodPrice[Food][Type]);
+    printOrderDrinks(Drinks[Drink], DrinkPrice[Drink], NoOfDrinks);
+    printOrderCutlery(Cutlery);
+    printAddInfo(AddInfo);
+    double total = 0;
+    if(Drink == NoOfDrinks)
+        total = FoodPrice[Food][Type];
+    else
+        total = FoodPrice[Food][Type] + DrinkPrice[Drink];
+    printOrderTotal(total);
 }
