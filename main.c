@@ -1,31 +1,48 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "input.h"
 #include "option.h"
 #include "order.h"
 
+#define LOAD_DATA "Please load data"
+#define MAX_FOOD 30
+
+void readFoodType(char *save, FILE *f);
+
+
 int main() {
-    printf("Welcome to Food Thingies!\nPlease sign in to continue!\n");
+    //printf("%s:\n", LOAD_DATA);
+    FILE *f = fopen("data.txt", "r");
+
     char username[20];
     char password[20];
     char AddInfo[100];
     int Food, Type, Drink, Cutlery;
     int state = 0;
     int orderPlaced = 0;
-    int NoOfFoodTypes = 3, NoOfDrinks = 4, NoOfDrinkOptions = 5, NoOfCutleryOptions = 2;
-    double DrinkPrice[] = {5,5,5,4};
-    int NoOfFoodOptions[3] = {3,2,4};
-    char FoodType[3][10] = {"Pizza", "Pasta", "Salad"};
-    char Drinks[4][10] = {"Coca-Cola", "Fanta", "Lipton", "Water"};
-    char FoodOption[3][4][50] = {
-            {"Pizza Carbonara", "Pizza Diavola", "Pizza Margherita" },
-            {"Chicken alfredo", "Mac&Cheese"},
-            {"Tuna Salad", "Chicken Salad", "Greek Salad", "Cobb"}
-    };
-    double FoodPrice[3][4] = {
-            {21,23,19},
-            {23,21},
-            {23,22,19,21}
-    };
+    int NoOfFoodTypes, NoOfDrinks, NoOfDrinkOptions, NoOfCutleryOptions;
+    double *DrinkPrice;
+    int *NoOfFoodOptions;
+    char **FoodType;
+    char **Drinks;
+    char ***FoodOption;
+    double **FoodPrice;
+
+    fscanf(f,"%d:", &NoOfFoodTypes);
+    fgetchar();
+    *NoOfFoodOptions = (int*)malloc(NoOfFoodTypes * sizeof(int));
+    **FoodType = (char **)malloc(NoOfFoodTypes * sizeof(char *));
+    for(int i=0; i<NoOfFoodTypes; i++)
+    {
+        FoodType[i] = (char *)malloc(MAX_FOOD * sizeof(char));
+        readFoodType(FoodType[i]);
+        char *p;
+        p = strtok()
+
+    }
+    printf("Welcome to Food Thingies!\nPlease sign in to continue!\n");
+
     while(!orderPlaced)
     {
         switch (state){
@@ -70,4 +87,16 @@ int main() {
     }
     printf("Order confirmed! Thank you for buying from us, %s!", username);
     return 0;
+}
+
+void readFoodType(char *save, FILE *f)
+{
+    int i=0;
+    char c = fgetc(f);
+    while(c!=' ')
+    {
+        save[i++] = c;
+        c = fgetc(f);
+    }
+    save[--i] = '\0';
 }
