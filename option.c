@@ -26,7 +26,7 @@ void printFoodOptions(int noOfFoodOptions[], double **FoodPrice, char ***FoodOpt
     printf(") Go back\n");
 }
 
-void printDrinkOptions(int noOfDrinks, double DrinkPrice[], char Drinks[][MAX_DRINK_NAME])
+void printDrinkOptions(int noOfDrinks, double *DrinkPrice, char **Drinks)
 {
     for(int i=0; i<noOfDrinks; i++)
     {

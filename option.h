@@ -8,7 +8,7 @@
 
 void printFoodTypes(int noOfFoodTypes, char **FoodType);
 void printFoodOptions(int noOfFoodOptions[], double **FoodPrice, char ***FoodOption, int Food);
-void printDrinkOptions(int noOfDrinks, double DrinkPrice[], char Drinks[][MAX_DRINK_NAME]);
+void printDrinkOptions(int noOfDrinks, double *DrinkPrice, char **Drinks);
 void printCutleryOptions();
 
 #endif //FOOD_ORDERING_OPTION_H

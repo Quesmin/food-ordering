@@ -1,13 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "input.h"
 #include "option.h"
 #include "order.h"
 #include "constants.h"
 
-void readFoodType(char *save, FILE *f);
-void getFoodAndPrice(char *Line, char *FoodOption[], double FoodPrice[], int *NoOfFoodOptions);
 
 
 int main() {
@@ -17,7 +14,7 @@ int main() {
     int Food, Type, Drink, Cutlery;
     int state = 0;
     int orderPlaced = 0;
-    int NoOfFoodTypes, NoOfDrinks, NoOfDrinkOptions, NoOfCutleryOptions;
+    int NoOfFoodTypes, NoOfDrinks, NoOfDrinkOptions, NoOfCutleryOptions = CUTLERY_OPTIONS ;
     double *DrinkPrice;
     int *NoOfFoodOptions;
     char **FoodType;
@@ -40,13 +37,43 @@ int main() {
             readFoodType(FoodType[i], f);
             char Line[100];
             fscanf(f,"%[^\n]", Line);
-            getFoodAndPrice(Line, FoodOption[i], FoodPrice[i],&NoOfFoodOptions[i]);
-            printf("%s %lf %d\n", FoodOption[i][0], FoodPrice[i][0], NoOfFoodOptions[i]);
             fgetc(f);
+            getFoodAndPrice(Line, FoodOption[i], FoodPrice[i],&NoOfFoodOptions[i]);
         }
+        fscanf(f, "%d:\n", &NoOfDrinks);
+        Drinks = (char **)malloc(NoOfDrinks * sizeof(char *));
+        DrinkPrice = (double *)malloc(NoOfDrinks * sizeof(double));
+            char Line[100];
+            fscanf(f,"%[^\n]", Line);
+            fgetc(f);
+            getDrinksAndPrice(Line, Drinks, DrinkPrice);
+            NoOfDrinkOptions = NoOfDrinks + 1;
     }
     else {
         printf("%s:\n", LOAD_DATA);
+        fscanf(stdin, "%d:\n", &NoOfFoodTypes);
+        NoOfFoodOptions = (int *) malloc(NoOfFoodTypes * sizeof(int));
+        FoodType = (char **) malloc(NoOfFoodTypes * sizeof(char *));
+        FoodOption = (char ***) malloc(NoOfFoodTypes * sizeof(char **));
+        FoodPrice = (double **)malloc(NoOfFoodTypes * sizeof(double*));
+        for (int i = 0; i < NoOfFoodTypes; i++) {
+            FoodType[i] = (char *) malloc(MAX_FOOD_TYPE_NAME * sizeof(char));
+            FoodOption[i] = (char **)malloc(FOOD_OPTIONS * sizeof(char*));
+            FoodPrice[i] = (double *)malloc(FOOD_OPTIONS * sizeof(double));
+            readFoodType(FoodType[i], stdin);
+            char Line[100];
+            fscanf(stdin,"%[^\n]", Line);
+            fgetc(stdin);
+            getFoodAndPrice(Line, FoodOption[i], FoodPrice[i],&NoOfFoodOptions[i]);
+        }
+        fscanf(f, "%d:\n", &NoOfDrinks);
+        Drinks = (char **)malloc(NoOfDrinks * sizeof(char *));
+        DrinkPrice = (double *)malloc(NoOfDrinks * sizeof(double));
+        char Line[100];
+        fscanf(f,"%[^\n]", Line);
+        fgetc(f);
+        getDrinksAndPrice(Line, Drinks, DrinkPrice);
+        NoOfDrinkOptions = NoOfDrinks + 1;
 
     }
     printf("Welcome to Food Thingies!\nPlease sign in to continue!\n");
@@ -93,56 +120,23 @@ int main() {
             }
         }
     }
+    for(int i=0; i<NoOfDrinks; i++)
+        free(Drinks[i]);
+    free(Drinks);
+    free(DrinkPrice);
+    for(int i=0; i<NoOfFoodTypes; i++)
+    {
+        for(int j=0;j<NoOfFoodOptions[i];j++)
+            free(FoodOption[i][j]);
+        free(FoodOption[i]);
+        free(FoodType[i]);
+        free(FoodPrice[i]);
+    }
+    free(NoOfFoodOptions);
+    free(FoodOption);
+    free(FoodType);
+    free(FoodPrice);
     printf("Order confirmed! Thank you for buying from us, %s!", username);
     return 0;
 }
 
-void readFoodType(char *save, FILE *f)
-{
-    int i=0;
-    char c = fgetc(f);
-    while(c!=' ')
-    {
-        save[i++] = c;
-        c = fgetc(f);
-    }
-    save[--i] = '\0';
-}
-void getFoodAndPrice(char *Line, char *FoodOption[], double FoodPrice[], int *NoOfFoodOptions)
-{
-   int OkBegin = 0;
-   int i=0, k=0, Options =0;
-   while(i < strlen(Line))
-   {
-       if(Line[i] == '(') {
-           OkBegin = 1; Options++; k=0;
-           i++;
-           continue;
-       }
-       if(OkBegin == 1)
-       {
-           FoodOption[Options-1] = (char*)malloc(MAX_FOOD_OPTION_NAME * sizeof(char));
-           while(Line[i] != '-')
-           {
-               FoodOption[Options-1][k++] = Line[i++];
-           }
-           FoodOption[Options-1][(strlen(FoodOption[Options-1]))-1] = '\0';
-           i = i+2;
-           char Number[20];
-           k=0;
-            printf("%s\n", FoodOption[Options-1]);
-           while(Line[i] != ')')
-           {
-               Number[k++] = Line[i++];
-           }
-           sscanf(Number,"%lf",FoodPrice[Options-1]);
-           i++; OkBegin = 0;
-           printf("%lf %s\n", FoodPrice[Options-1],Number);
-
-
-       }
-       i++;
-
-   }
-   *NoOfFoodOptions = Options;
-}

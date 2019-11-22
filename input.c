@@ -2,7 +2,79 @@
 // Created by Cosmin on 05-Nov-19.
 //
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "constants.h"
 
+void readFoodType(char *save, FILE *f)
+{
+    int i=0;
+    char c = fgetc(f);
+    while(c!=' ')
+    {
+        save[i++] = c;
+        c = fgetc(f);
+    }
+    save[--i] = '\0';
+}
+
+void getFoodAndPrice(char *Line, char *FoodOption[], double FoodPrice[], int *NoOfFoodOptions)
+{
+    int OkBegin = 0;
+    int i=0, k=0, Options =0;
+    while(i < strlen(Line))
+    {
+        if(Line[i] == '(') {
+            OkBegin = 1; Options++; k=0;
+            i++;
+            continue;
+        }
+        if(OkBegin == 1)
+        {
+            FoodOption[Options-1] = (char*)malloc(MAX_FOOD_OPTION_NAME * sizeof(char));
+            while(Line[i] != '-')
+            {
+                FoodOption[Options-1][k++] = Line[i++];
+            }
+            FoodOption[Options-1][(strlen(FoodOption[Options-1]))-1] = '\0';
+            i = i+2;
+            char Number[20];
+            k=0;
+            while(Line[i] != ')')
+            {
+                Number[k++] = Line[i++];
+            }
+            Number[k] = '\0';
+            sscanf(Number,"%lf",&FoodPrice[Options-1]);
+            OkBegin = 0;
+
+        }
+        i++;
+
+    }
+    *NoOfFoodOptions = Options;
+}
+
+void getDrinksAndPrice(char *Line, char *Drinks[], double DrinkPrices[])
+{
+    int i=0;
+    int NoOfDrinkOptions = 0;
+    while(i<strlen(Line))
+    {
+        char Data[50];
+        int k=0;
+        NoOfDrinkOptions++;
+        while(Line[i] != ')')
+        {
+            Data[k++] = Line[i++];
+        }
+        Data[k++] = Line[i++];
+        Data[k++] = '\0';
+        Drinks[NoOfDrinkOptions-1] = (char *)malloc(MAX_DRINK_NAME * sizeof(char));
+        sscanf(Data,"(%s - %lf)", Drinks[NoOfDrinkOptions-1], &DrinkPrices[NoOfDrinkOptions-1]);
+        i = i+2;
+    }
+}
 void userCredentialsStep (char username[], char password[], int *state)
 {
     printf("--Username:\n");
