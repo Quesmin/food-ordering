@@ -6,8 +6,9 @@
 #define FOOD_ORDERING_CONSTANTS_H
 
 #define MAX_FOOD_TYPE_NAME 10
-#define FOOD_OPTIONS 4
-#define MAX_FOOD_OPTION_NAME 50
+#define FOOD_OPTIONS 10
+#define MAX_FOOD_OPTION_NAME 30
 #define MAX_DRINK_NAME 10
+#define LOAD_DATA "Please load the data"
 
 #endif //FOOD_ORDERING_CONSTANTS_H
