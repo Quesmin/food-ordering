@@ -66,17 +66,17 @@ int main() {
             fgetc(stdin);
             getFoodAndPrice(Line, FoodOption[i], FoodPrice[i],&NoOfFoodOptions[i]);
         }
-        fscanf(f, "%d:\n", &NoOfDrinks);
+        fscanf(stdin, "%d:\n", &NoOfDrinks);
         Drinks = (char **)malloc(NoOfDrinks * sizeof(char *));
         DrinkPrice = (double *)malloc(NoOfDrinks * sizeof(double));
         char Line[100];
-        fscanf(f,"%[^\n]", Line);
-        fgetc(f);
+        fscanf(stdin,"%[^\n]", Line);
+        fgetc(stdin);
         getDrinksAndPrice(Line, Drinks, DrinkPrice);
         NoOfDrinkOptions = NoOfDrinks + 1;
 
     }
-    printf("Welcome to Food Thingies!\nPlease sign in to continue!\n");
+    printf("\nWelcome to Food Thingies!\nPlease sign in to continue!\n");
 
     while(!orderPlaced)
     {
@@ -136,6 +136,7 @@ int main() {
     free(FoodOption);
     free(FoodType);
     free(FoodPrice);
+    fclose(f);
     printf("Order confirmed! Thank you for buying from us, %s!", username);
     return 0;
 }
