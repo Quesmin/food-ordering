@@ -36,7 +36,7 @@ void getFoodAndPrice(char *Line, char *FoodOption[], double FoodPrice[], int *No
             {
                 FoodOption[Options-1][k++] = Line[i++];
             }
-            FoodOption[Options-1][(strlen(FoodOption[Options-1]))-1] = '\0';
+            FoodOption[Options-1][k-1] = '\0';
             i = i+2;
             char Number[20];
             k=0;
