@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "input.h"
 #include "option.h"
 #include "order.h"
@@ -9,8 +10,8 @@
 
 
 int main() {
-    char username[20];
-    char password[20];
+    char username[20] = "admin";
+    char password[20] = "admin";
     char AddInfo[100];
     int Food, Type, Drink, Cutlery;
     int state = 0;
@@ -80,13 +81,29 @@ int main() {
         NoOfDrinkOptions = NoOfDrinks + 1;
 
     }
-    printf("\nWelcome to Food Thingies!\nPlease sign in to continue!\n");
-
+    printf("\nWelcome to Food Thingies!\n");
+    //printf("Please sign in to continue!\n");
     while (!orderPlaced) {
         switch (state) {
             case (0): {
-                userCredentialsStep(username, password, &state);
+                //userCredentialsStep(username, password, &state);
+                printf("Do you want to sign in or sign up?\n");
+                char choice;
+                choice = getchar();
+                if(choice == 'a')
+                    state++;
+                else
+                    state = state + 2;
                 break;
+            }
+            case(1):{
+                printf("Signing in!\n");
+                printf("---Username\n");
+                char validateUser[20];
+                scanf("%[^\n]", validateUser);
+                getchar();
+                if(strcmp(username, validateUser)==0)
+                //userCredentialsStep(username, password, &state);
             }
             case (1): {
                 printFoodTypes(NoOfFoodTypes, FoodType);
