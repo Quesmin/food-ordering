@@ -6,6 +6,14 @@
 #include <string.h>
 #include "constants.h"
 
+int getFoodOptionsNumber(char *line) {
+    int count = 0;
+    for (int i = 0; i < strlen(line); i++)
+        if (line[i] == ')')
+            count++;
+
+    return count;
+}
 void readFoodType(char *save, FILE *f)
 {
     int i=0;
@@ -18,7 +26,7 @@ void readFoodType(char *save, FILE *f)
     save[--i] = '\0';
 }
 
-void getFoodAndPrice(char *Line, char *FoodOption[], double FoodPrice[], int *NoOfFoodOptions)
+void getFoodAndPrice(char *Line, char *FoodOption[], double FoodPrice[])
 {
     int OkBegin = 0;
     int i=0, k=0, Options =0;
@@ -52,7 +60,6 @@ void getFoodAndPrice(char *Line, char *FoodOption[], double FoodPrice[], int *No
         i++;
 
     }
-    *NoOfFoodOptions = Options;
 }
 
 void getDrinksAndPrice(char *Line, char *Drinks[], double DrinkPrices[])
