@@ -1,6 +1,6 @@
 3:
-Pizza: (carbonara - 67.00) (lol - 87.00) (diavola - 90.00)
-Salad: (varza - 67.00) (lolebole fd - 88.00)
-Pasta: (de alea bune - 67.00) (de alea rele - 67.00)
-2:
-(coca-cola - 67), (suk - 78)
+Pizza: (Pizza Carbonara - 21.00) (Pizza Diavola - 23.00) (Pizza Maegherita - 19.00)
+Pasta: (Chicken alfredo - 23.00) (Mac&cheese - 21.00)
+Salad: (Tuna Salad - 23.00) (Chicken Salad - 22.00) (Greek Salad - 19.00) (Cobb - 21.00)
+4:
+(Coca-cola - 5), (Fanta - 5), (Lipton - 5), (Water - 4)

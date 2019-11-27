@@ -89,6 +89,7 @@ int main() {
         NoOfDrinkOptions = NoOfDrinks + 1;
 
     }
+    fclose(f);
     printf("\nWelcome to Food Thingies!\n");
     while (!orderPlaced) {
         switch (state) {
