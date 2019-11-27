@@ -47,7 +47,7 @@ void orderConfirmation(int *state, int *orderPlaced)
     choice = getchar();
     getchar();
     if(choice == 'a' + 1)
-        *state = 4;
+        *state = 6;
     else
         *orderPlaced = 1;
 }

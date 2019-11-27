@@ -33,19 +33,20 @@ void getFoodAndPrice(char *Line, char *FoodOption[], double FoodPrice[])
     while(i < strlen(Line))
     {
         if(Line[i] == '(') {
-            OkBegin = 1; Options++; k=0;
+            OkBegin = 1; Options++; k=0; // we count every option
             i++;
             continue;
         }
         if(OkBegin == 1)
         {
+            // reading the food option
             FoodOption[Options-1] = (char*)malloc(MAX_FOOD_OPTION_NAME * sizeof(char));
             while(Line[i] != '-')
             {
                 FoodOption[Options-1][k++] = Line[i++];
             }
             FoodOption[Options-1][k-1] = '\0';
-            i = i+2;
+            i = i+2; // jump over "- "
             char Number[20];
             k=0;
             while(Line[i] != ')')
