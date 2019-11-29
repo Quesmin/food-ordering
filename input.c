@@ -14,16 +14,16 @@ int getFoodOptionsNumber(char *line) {
 
     return count;
 }
-void readFoodType(char *save, FILE *f)
+void readFoodType(char **save, FILE *f)
 {
     int i=0;
     char c = fgetc(f);
     while(c!=' ')
     {
-        save[i++] = c;
+        (*save)[i++] = c;
         c = fgetc(f);
     }
-    save[--i] = '\0';
+    (*save)[--i] = '\0';
 }
 
 void getFoodAndPrice(char *Line, char *FoodOption[], double FoodPrice[])
@@ -63,7 +63,7 @@ void getFoodAndPrice(char *Line, char *FoodOption[], double FoodPrice[])
     }
 }
 
-void getDrinksAndPrice(char *Line, char *Drinks[], double DrinkPrices[])
+void getDrinksAndPrice(char *Line, char ***Drinks, double **DrinkPrices)
 {
     int i=0;
     int NoOfDrinkOptions = 0;
@@ -78,8 +78,8 @@ void getDrinksAndPrice(char *Line, char *Drinks[], double DrinkPrices[])
         }
         Data[k++] = Line[i++];
         Data[k++] = '\0';
-        Drinks[NoOfDrinkOptions-1] = (char *)malloc(MAX_DRINK_NAME * sizeof(char));
-        sscanf(Data,"(%s - %lf)", Drinks[NoOfDrinkOptions-1], &DrinkPrices[NoOfDrinkOptions-1]);
+        (*Drinks)[NoOfDrinkOptions-1] = (char *)malloc(MAX_DRINK_NAME * sizeof(char));
+        sscanf(Data,"(%s - %lf)", (*Drinks)[NoOfDrinkOptions-1], &(*DrinkPrices)[NoOfDrinkOptions-1]);
         i = i+2;
     }
 }
