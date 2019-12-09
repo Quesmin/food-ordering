@@ -5,9 +5,10 @@
 #ifndef FOOD_ORDERING_SIGNUP_IN_H
 #define FOOD_ORDERING_SIGNUP_IN_H
 
+void vinegarCipher(char givenString[], char key[], char encDecr);
 int isPasswordValid(char pass[], char username[]);
-void signUpProcess(char username[], char password[], int *state);
-void signInProcess(char username[], char password[], int *state);
+void signUpProcess(char username[], int *state);
+void signInProcess(char username[], int *state);
 void chooseSignInOrSignUp(int *state);
 
 

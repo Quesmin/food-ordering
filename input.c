@@ -79,7 +79,7 @@ void getDrinksAndPrice(char *Line, char ***Drinks, double **DrinkPrices)
             (*Drinks)[NoOfDrinkOptions-1][k++] = Line[i++];
         }
         (*Drinks)[NoOfDrinkOptions-1][k] = Line[i++];
-        (*Drinks)[NoOfDrinkOptions-1][k] = '\0';
+        (*Drinks)[NoOfDrinkOptions-1][--k] = '\0';
         char number[10];
         k = 0;
         while(Line[i] != ')')

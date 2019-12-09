@@ -11,8 +11,7 @@
 
 
 int main() {
-    char username[20] = "admin";
-    char password[20] = "admin";
+    char username[MAX_USERNAME];
     char AddInfo[100];
     int Food, Type, Drink, Cutlery;
     int state = 0;
@@ -50,11 +49,11 @@ int main() {
                 break;
             }
             case (1): {
-                signInProcess( username, password, &state);
+                signInProcess(username,&state);
                 break;
             }
             case (2): {
-                signUpProcess(username, password, &state);
+                signUpProcess(username,&state);
                 break;
             }
             case (3): {
@@ -110,7 +109,6 @@ int main() {
     free(FoodOption);
     free(FoodType);
     free(FoodPrice);
-    fclose(f);
     printf("Order confirmed! Thank you for buying from us, %s!", username);
     return 0;
 }

@@ -7,7 +7,9 @@
 //
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "constants.h"
+#include "signup&in.h"
 
 int isPasswordValid(char pass[], char username[]) {
     if (strlen(pass) < 7) {
@@ -28,39 +30,92 @@ int isPasswordValid(char pass[], char username[]) {
     printf("%s\n", ERROR_PASSWORD_DIGITS);
     return 0;
 }
-void signUpProcess(char username[], char password[], int *state)
+void signUpProcess(char actualUser[], int *state)
 {
     printf("%s\n", SIGNING_UP);
+    FILE *f = fopen("C:\\Users\\Cosmin\\Desktop\\CP\\food-ordering\\users.txt", "r");
+    fscanf(f,"%*[^\n]\n"); // discard first line in file
+    int numberOfUsers, validUser = 1;
+    fscanf(f,"%d\n", &numberOfUsers);
     printf("---Username\n");
-    char givenUser[20];
+    char givenUser[MAX_USERNAME];
     scanf("%[^\n]", givenUser);
     getchar();
-    if (strcmp(givenUser, username) == 0) {
-        printf("%s\n", DUPLICATE_USER);
-    } else {
-        strcpy(username, givenUser);
+    for(int i=0; i<numberOfUsers;i++) {
+        char username[MAX_USERNAME];
+        fscanf(f, "%s", username);
+        if (strcmp(givenUser, username) == 0) {
+            printf("%s\n", DUPLICATE_USER);
+            validUser = 0;
+            break;
+        }
+        fscanf(f,"%*[^\n]\n");
+    }
+    fclose(f);
+    if(validUser){
+        strcpy(actualUser,givenUser);
         printf("---Password\n");
-        char givenPassword[20];
+        char givenPassword[MAX_PASSWORD];
         do {                                      // reading pass until is valid
-            scanf("%[^\n]", givenPassword);
+            scanf("%s", givenPassword);
             getchar();
-        } while (!isPasswordValid(givenPassword, username));
-        strcpy(password,givenPassword);
+        } while (!isPasswordValid(givenPassword, givenUser));
+        vinegarCipher(givenPassword,KEY,'e');
+        f = fopen("C:\\Users\\Cosmin\\Desktop\\CP\\food-ordering\\users.txt", "a");
+        fseek(f,0,SEEK_END);
+        fprintf(f,"\n%s %s", givenUser, givenPassword);
+        fclose(f);
+        f = fopen("C:\\Users\\Cosmin\\Desktop\\CP\\food-ordering\\users.txt", "r");
+        fseek(f,0,SEEK_SET);
+        char buffer[SIZE_OF_BUFFER], firsLine[SIZE_OF_BUFFER];
+        int character, i = 0;
+        fscanf(f,"%[^\n]",firsLine); // discard the first line in file
+        fgetc(f);
+        fscanf(f,"%*[^\n]\n"); // discard the second line in file
+        while((character = fgetc(f)) != EOF)
+        {
+            buffer[i++] = (char) character;
+        }
+        fclose(f);
+        f = fopen("C:\\Users\\Cosmin\\Desktop\\CP\\food-ordering\\users.txt", "w");
+        fseek(f,0,SEEK_SET);
+        fscanf(f,"%*[^\n]\n"); // discard first line in file
+        fprintf(f,"%s\n%d\n%s",firsLine,++numberOfUsers, buffer);
+        fclose(f);
         *state = 3;
     }
 }
-void signInProcess(char username[], char password[], int *state)
+void signInProcess(char actualUser[], int *state)
 {
     printf("%s\n", SIGNING_IN);
     printf("---Username\n");
-    char givenUser[20];
-    scanf("%[^\n]", givenUser);
+    FILE *f = fopen("C:\\Users\\Cosmin\\Desktop\\CP\\food-ordering\\users.txt", "r");
+    fscanf(f,"%*[^\n]\n"); // discard first line in file
+    int numberOfUsers, userFound = 0;
+    char givenUser[MAX_USERNAME], givenPassword[MAX_PASSWORD];
+
+    scanf("%s",givenUser);
     getchar();
-    if (strcmp(username, givenUser) == 0) {
+    fscanf(f,"%d\n", &numberOfUsers);
+    for(int i=0; i<numberOfUsers;i++) {
+        char username[MAX_USERNAME];
+        fscanf(f,"%s", username);
+        if (strcmp(username, givenUser) == 0) {
+            userFound = 1;
+            strcpy(actualUser,username);
+            break;
+        }
+        fscanf(f,"%*[^\n]");
+        fgetc(f);
+    }
+    if(userFound){
         printf("---Password\n");
-        char givenPassword[20];
+        char password[MAX_PASSWORD];
         scanf("%[^\n]", givenPassword);
         getchar();
+        fgetc(f); // discard the space between user and password
+        fscanf(f,"%s",password);
+        vinegarCipher(password,KEY,'d');
         if (strcmp(givenPassword, password) == 0) {
             *state = 3;
         } else {
@@ -70,6 +125,7 @@ void signInProcess(char username[], char password[], int *state)
         printf("%s\n", USER_NOT_FOUND);
         *state = 0;
     }
+    fclose(f);
 }
 void chooseSignInOrSignUp(int *state)
 {
@@ -83,4 +139,26 @@ void chooseSignInOrSignUp(int *state)
     else
         *state = 2;
     getchar();
+}
+void vinegarCipher(char givenString[], char key[], char encDecr) {
+    char *tablow = (char *) malloc(66 * sizeof(char));
+    char *copyKey = (char *) malloc(strlen(givenString) * sizeof(char));
+    char result[20];
+    strcpy(tablow, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!_. ");
+    for (int i = 0, j = 0; i < strlen(givenString); i++, j++) {
+        if (j == strlen(key))
+            j = 0;
+        copyKey[i] = key[j];
+    }
+    for (int i = 0; i < strlen(givenString); i++) {
+        if (encDecr == 'e')
+            result[i] = tablow[((strchr(tablow, givenString[i]) - tablow) + (strchr(tablow, copyKey[i]) - tablow)) %
+                               (strlen(tablow))];
+        else if (encDecr == 'd')
+            result[i] = tablow[((strchr(tablow, givenString[i]) - tablow) - (strchr(tablow, copyKey[i]) - tablow) +
+                                (strlen(tablow))) % (strlen(tablow))];
+    }
+
+    result[strlen(givenString)] = '\0';
+    strcpy(givenString,result);
 }

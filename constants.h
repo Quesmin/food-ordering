@@ -23,5 +23,9 @@
 #define USER_NOT_FOUND	"Username doesn't exist"
 #define DUPLICATE_USER	"Please choose another username!"
 #define INCORRECT_PASSWORD	"Incorrect password"
+#define KEY "LOL"
+#define MAX_USERNAME 20
+#define MAX_PASSWORD 20
+#define SIZE_OF_BUFFER 1000
 
 #endif //FOOD_ORDERING_CONSTANTS_H
