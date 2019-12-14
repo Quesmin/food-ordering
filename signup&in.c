@@ -30,10 +30,10 @@ int isPasswordValid(char pass[], char username[]) {
     printf("%s\n", ERROR_PASSWORD_DIGITS);
     return 0;
 }
-void signUpProcess(char actualUser[], int *state)
+void signUpProcess(char actualUser[], int *state, char key[])
 {
     printf("%s\n", SIGNING_UP);
-    FILE *f = fopen("C:\\Users\\Cosmin\\Desktop\\CP\\food-ordering\\users.txt", "r");
+    FILE *f = fopen("users.txt", "r");
     fscanf(f,"%*[^\n]\n"); // discard first line in file
     int numberOfUsers, validUser = 1;
     fscanf(f,"%d\n", &numberOfUsers);
@@ -60,36 +60,23 @@ void signUpProcess(char actualUser[], int *state)
             scanf("%s", givenPassword);
             getchar();
         } while (!isPasswordValid(givenPassword, givenUser));
-        vinegarCipher(givenPassword,KEY,'e');
-        f = fopen("C:\\Users\\Cosmin\\Desktop\\CP\\food-ordering\\users.txt", "a");
+        vinegarCipher(givenPassword,key,'e');
+        f = fopen("users.txt", "a+");
         fseek(f,0,SEEK_END);
         fprintf(f,"\n%s %s", givenUser, givenPassword);
         fclose(f);
-        f = fopen("C:\\Users\\Cosmin\\Desktop\\CP\\food-ordering\\users.txt", "r");
-        fseek(f,0,SEEK_SET);
-        char buffer[SIZE_OF_BUFFER], firsLine[SIZE_OF_BUFFER];
-        int character, i = 0;
-        fscanf(f,"%[^\n]",firsLine); // discard the first line in file
-        fgetc(f);
-        fscanf(f,"%*[^\n]\n"); // discard the second line in file
-        while((character = fgetc(f)) != EOF)
-        {
-            buffer[i++] = (char) character;
-        }
-        fclose(f);
-        f = fopen("C:\\Users\\Cosmin\\Desktop\\CP\\food-ordering\\users.txt", "w");
-        fseek(f,0,SEEK_SET);
-        fscanf(f,"%*[^\n]\n"); // discard first line in file
-        fprintf(f,"%s\n%d\n%s",firsLine,++numberOfUsers, buffer);
+        f = fopen("users.txt", "r+");
+        fseek(f,strlen(key)+2,SEEK_SET);
+        fprintf(f,"%d", ++numberOfUsers); // considering the maximum number of users is 9999999999
         fclose(f);
         *state = 3;
     }
 }
-void signInProcess(char actualUser[], int *state)
+void signInProcess(char actualUser[], int *state, char key[])
 {
     printf("%s\n", SIGNING_IN);
     printf("---Username\n");
-    FILE *f = fopen("C:\\Users\\Cosmin\\Desktop\\CP\\food-ordering\\users.txt", "r");
+    FILE *f = fopen("users.txt", "r");
     fscanf(f,"%*[^\n]\n"); // discard first line in file
     int numberOfUsers, userFound = 0;
     char givenUser[MAX_USERNAME], givenPassword[MAX_PASSWORD];
@@ -115,7 +102,7 @@ void signInProcess(char actualUser[], int *state)
         getchar();
         fgetc(f); // discard the space between user and password
         fscanf(f,"%s",password);
-        vinegarCipher(password,KEY,'d');
+        vinegarCipher(password,key,'d');
         if (strcmp(givenPassword, password) == 0) {
             *state = 3;
         } else {

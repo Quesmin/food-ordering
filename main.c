@@ -12,6 +12,7 @@
 
 int main() {
     char username[MAX_USERNAME];
+    char key[20];
     char AddInfo[100];
     int Food, Type, Drink, Cutlery;
     int state = 0;
@@ -24,7 +25,7 @@ int main() {
     char ***FoodOption;
     double **FoodPrice;
     FILE *f;
-    f = fopen("C:\\Users\\Cosmin\\Desktop\\CP\\food-ordering\\data.txt", "r");
+    f = fopen("data.txt", "r");
     // fopen("data.txt", "r"); fails at finding the specific file
     if (f) {
         // reading food
@@ -41,6 +42,9 @@ int main() {
         storeDrinksAndPricesFromInput(&Drinks, NoOfDrinks,  &DrinkPrice, &NoOfDrinkOptions, stdin);
     }
     fclose(f);
+    f = fopen("users.txt", "r");
+    fscanf(f,"%s",key);
+    fclose(f);
     printf("\nWelcome to Food Thingies!\n");
     while (!orderPlaced) {
         switch (state) {
@@ -49,11 +53,11 @@ int main() {
                 break;
             }
             case (1): {
-                signInProcess(username,&state);
+                signInProcess(username,&state,key);
                 break;
             }
             case (2): {
-                signUpProcess(username,&state);
+                signUpProcess(username,&state,key);
                 break;
             }
             case (3): {
