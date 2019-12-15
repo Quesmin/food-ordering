@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "constants.h"
 
-void printFoodTypes(int noOfFoodTypes, char FoodType[][MAX_FOOD_TYPE_NAME])
+void printFoodTypes(int noOfFoodTypes, char **FoodType)
 {
     printf("Please choose the food you feel like eating today:\n");
     for(int i=0;i<noOfFoodTypes;i++)
@@ -15,7 +15,7 @@ void printFoodTypes(int noOfFoodTypes, char FoodType[][MAX_FOOD_TYPE_NAME])
     printf("%c) Go back\n", 'a'+noOfFoodTypes);
 }
 
-void printFoodOptions(int noOfFoodOptions[], double FoodPrice[][FOOD_OPTIONS], char FoodOption[][FOOD_OPTIONS][MAX_FOOD_OPTION_NAME], int Food)
+void printFoodOptions(int noOfFoodOptions[], double **FoodPrice, char ***FoodOption, int Food)
 {
     for(int i=0; i<noOfFoodOptions[Food]; i++)
     {
@@ -26,7 +26,7 @@ void printFoodOptions(int noOfFoodOptions[], double FoodPrice[][FOOD_OPTIONS], c
     printf(") Go back\n");
 }
 
-void printDrinkOptions(int noOfDrinks, double DrinkPrice[], char Drinks[][MAX_DRINK_NAME])
+void printDrinkOptions(int noOfDrinks, double *DrinkPrice, char **Drinks)
 {
     for(int i=0; i<noOfDrinks; i++)
     {

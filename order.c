@@ -3,7 +3,6 @@
 //
 
 #include <stdio.h>
-#include "constants.h"
 
 void printOrderHeader(char username[])
 {
@@ -17,9 +16,9 @@ void printOrderFood(char* Food, double Price)
     printf("---%s: %.2f RON\n", Food, Price);
 
 }
-void printOrderDrinks(char* Drink, double Price, int NoOfDrinks)
+void printOrderDrinks(char* Drink, double Price, int NoOfDrinks, int DrinkInd)
 {
-    if(Drink != NoOfDrinks)
+    if(DrinkInd != NoOfDrinks)
         printf("---%s: %.2f RON\n", Drink,Price);
 }
 void printOrderCutlery(int Cutlery)
@@ -48,16 +47,16 @@ void orderConfirmation(int *state, int *orderPlaced)
     choice = getchar();
     getchar();
     if(choice == 'a' + 1)
-        *state = 4;
+        *state = 6;
     else
         *orderPlaced = 1;
 }
-void printOrder(char username[], char FoodOption[][FOOD_OPTIONS][MAX_FOOD_OPTION_NAME], double FoodPrice[][FOOD_OPTIONS], char Drinks[][MAX_DRINK_NAME],
+void printOrder(char username[], char ***FoodOption, double **FoodPrice, char **Drinks,
                 double DrinkPrice[], char AddInfo[], int Cutlery, int Food, int Type, int Drink, int NoOfDrinks)
 {
     printOrderHeader(username);
     printOrderFood( FoodOption[Food][Type], FoodPrice[Food][Type]);
-    printOrderDrinks(Drinks[Drink], DrinkPrice[Drink], NoOfDrinks);
+    printOrderDrinks(Drinks[Drink], DrinkPrice[Drink], NoOfDrinks, Drink);
     printOrderCutlery(Cutlery);
     printAddInfo(AddInfo);
     double total = 0;
