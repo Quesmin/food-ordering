@@ -5,6 +5,7 @@
 #ifndef FOOD_ORDERING_INPUT_H
 #define FOOD_ORDERING_INPUT_H
 #include "constants.h"
+#include "food.h"
 
 int getFoodOptionsNumber(char *line);
 void userCredentialsStep (char username[], char password[], int *state);

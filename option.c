@@ -3,16 +3,17 @@
 //
 #include <stdio.h>
 #include "constants.h"
+#include "food.h"
 
-void printFoodTypes(int noOfFoodTypes, char **FoodType)
+void printFoodTypes(foodType f)
 {
     printf("Please choose the food you feel like eating today:\n");
-    for(int i=0;i<noOfFoodTypes;i++)
+    for(int i=0;i<f.noOfFoodTypes;i++)
     {
         putchar('a'+i);
-        printf(") %s\n", FoodType[i]);
+        printf(") %s\n", f.foodType[i]);
     }
-    printf("%c) Go back\n", 'a'+noOfFoodTypes);
+    printf("%c) Go back\n", 'a'+f.noOfFoodTypes);
 }
 
 void printFoodOptions(int noOfFoodOptions[], double **FoodPrice, char ***FoodOption, int Food)
