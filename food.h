@@ -15,9 +15,9 @@ typedef struct _foodType{
 }foodType;
 
 typedef struct _specificFood{
-    int *NoOfFoodOptions;
-    char ***FoodOption;
-    double **FoodPrice;
+    int *noOfFoodOptions;
+    char ***foodOption;
+    double **foodPrice;
 
 }specificFood;
 void freeSpecificFood( specificFood *food, int noOfFoodTypes);

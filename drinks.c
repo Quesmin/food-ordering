@@ -5,8 +5,8 @@
 #include "drinks.h"
 void freeDrinks( drinks *d){
 
-    for (int i = 0; i < d->NoOfDrinks; i++)
+    for (int i = 0; i < d->noOfDrinks; i++)
         free(d->Drinks[i]);
     free(d->Drinks);
-    free(d->DrinkPrice);
+    free(d->drinkPrice);
 }

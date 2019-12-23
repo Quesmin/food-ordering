@@ -3,6 +3,9 @@
 //
 
 #include <stdio.h>
+#include "buyer.h"
+#include "food.h"
+#include "drinks.h"
 
 void printOrderHeader(char username[])
 {
@@ -10,16 +13,16 @@ void printOrderHeader(char username[])
     printf("-------------------\n");
     printf("Name: %s\n", username);
 }
-void printOrderFood(char* Food, double Price)
+void printOrderFood(specificFood food, choice specific)
 {
     printf("Food items:\n");
-    printf("---%s: %.2f RON\n", Food, Price);
+    printf("---%s: %.2f RON\n", food.foodOption[specific.Food][specific.Type], food.foodPrice[specific.Food][specific.Type]);
 
 }
-void printOrderDrinks(char* Drink, double Price, int NoOfDrinks, int DrinkInd)
+void printOrderDrinks(drinks drink, choice specific)
 {
-    if(DrinkInd != NoOfDrinks)
-        printf("---%s: %.2f RON\n", Drink,Price);
+    if(specific.Drink != drink.noOfDrinkOptions - 1) // decrement with 1 because we convert to index
+        printf("---%s: %.2f RON\n", drink.Drinks[specific.Drink],drink.drinkPrice[specific.Drink]);
 }
 void printOrderCutlery(int Cutlery)
 {
@@ -51,18 +54,17 @@ void orderConfirmation(int *state, int *orderPlaced)
     else
         *orderPlaced = 1;
 }
-void printOrder(char username[], char ***FoodOption, double **FoodPrice, char **Drinks,
-                double DrinkPrice[], char AddInfo[], int Cutlery, int Food, int Type, int Drink, int NoOfDrinks)
+void printOrder(buyer b, choice specific, specificFood food, drinks drink)
 {
-    printOrderHeader(username);
-    printOrderFood( FoodOption[Food][Type], FoodPrice[Food][Type]);
-    printOrderDrinks(Drinks[Drink], DrinkPrice[Drink], NoOfDrinks, Drink);
-    printOrderCutlery(Cutlery);
-    printAddInfo(AddInfo);
+    printOrderHeader(b.username);
+    printOrderFood(food, specific);
+    printOrderDrinks(drink, specific);
+    printOrderCutlery(specific.Cutlery);
+    printAddInfo(b.additionalInfo);
     double total = 0;
-    if(Drink == NoOfDrinks)
-        total = FoodPrice[Food][Type];
+    if(specific.Drink == drink.noOfDrinks)
+        total = food.foodPrice[specific.Food][specific.Type];
     else
-        total = FoodPrice[Food][Type] + DrinkPrice[Drink];
+        total = food.foodPrice[specific.Food][specific.Type] + drink.drinkPrice[specific.Drink];
     printOrderTotal(total);
 }

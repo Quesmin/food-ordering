@@ -11,12 +11,12 @@ void freeFoodType( foodType *type){
 }
 void freeSpecificFood( specificFood *food, int noOfFoodTypes){
     for (int i = 0; i < noOfFoodTypes; i++) {
-        for (int j = 0; j < food->NoOfFoodOptions[i]; j++)
-            free(food->FoodOption[i][j]);
-        free(food->FoodOption[i]);
-        free(food->FoodPrice[i]);
+        for (int j = 0; j < food->noOfFoodOptions[i]; j++)
+            free(food->foodOption[i][j]);
+        free(food->foodOption[i]);
+        free(food->foodPrice[i]);
     }
-    free(food->NoOfFoodOptions);
-    free(food->FoodOption);
-    free(food->FoodPrice);
+    free(food->noOfFoodOptions);
+    free(food->foodOption);
+    free(food->foodPrice);
 }

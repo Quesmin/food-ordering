@@ -13,7 +13,7 @@ int main() {
     buyer b = createBuyer();
     foodType type;
     specificFood food;
-    drinks d;
+    drinks drink;
     choice specific;
     char key[20];
     enum Position { SIGN_IN_OR_UP, SIGN_IN_STATE, SIGN_UP_STATE, FOOD_TYPE,
@@ -26,16 +26,16 @@ int main() {
     if (f) {
         // reading food
         fscanf(f, "%d:\n", &type.noOfFoodTypes);
-        storeFoodAndPricesFromInput(&food.NoOfFoodOptions, &type.foodType, &food.FoodOption, &food.FoodPrice, type.noOfFoodTypes, f);
-        fscanf(f, "%d:\n", &d.NoOfDrinks);
-        storeDrinksAndPricesFromInput(&d.Drinks, d.NoOfDrinks,  &d.DrinkPrice, &d.NoOfDrinkOptions, f);
+        storeFoodAndPricesFromInput(&food.noOfFoodOptions, &type.foodType, &food.foodOption, &food.foodPrice, type.noOfFoodTypes, f);
+        fscanf(f, "%d:\n", &drink.noOfDrinks);
+        storeDrinksAndPricesFromInput(&drink.Drinks, drink.noOfDrinks,  &drink.drinkPrice, &drink.noOfDrinkOptions, f);
 
     } else {
         printf("%s:\n", LOAD_DATA); // same steps but from the console
         fscanf(stdin, "%d:\n", &type.noOfFoodTypes);
-        storeFoodAndPricesFromInput(&food.NoOfFoodOptions, &type.foodType, &food.FoodOption, &food.FoodPrice, type.noOfFoodTypes, stdin);
-        fscanf(stdin, "%d:\n", &d.NoOfDrinks);
-        storeDrinksAndPricesFromInput(&d.Drinks, d.NoOfDrinks,  &d.DrinkPrice, &d.NoOfDrinkOptions, stdin);
+        storeFoodAndPricesFromInput(&food.noOfFoodOptions, &type.foodType, &food.foodOption, &food.foodPrice, type.noOfFoodTypes, stdin);
+        fscanf(stdin, "%d:\n", &drink.noOfDrinks);
+        storeDrinksAndPricesFromInput(&drink.Drinks, drink.noOfDrinks,  &drink.drinkPrice, &drink.noOfDrinkOptions, stdin);
     }
     fclose(f);
     f = fopen("users.txt", "r");
@@ -65,14 +65,14 @@ int main() {
             }
             case (SPECIFIC_FOOD): {
                 printf("Please choose the type of %s:\n", type.foodType[specific.Food]);
-                printFoodOptions(food.NoOfFoodOptions, food.FoodPrice, food.FoodOption, specific.Food);
-                specific.Type = getChoiceIndex(food.NoOfFoodOptions[specific.Food], &state);
+                printFoodOptions(food, specific.Food);
+                specific.Type = getChoiceIndex(food.noOfFoodOptions[specific.Food], &state);
                 break;
             }
             case (DRINK_OPTIONS): {
                 printf("Please choose a drink to go with your %s:\n", type.foodType[specific.Food]);
-                printDrinkOptions(d.NoOfDrinks, d.DrinkPrice, d.Drinks);
-                specific.Drink = getChoiceIndex(d.NoOfDrinkOptions, &state);
+                printDrinkOptions(drink);
+                specific.Drink = getChoiceIndex(drink.noOfDrinkOptions, &state);
                 break;
             }
             case (CUTLERY): {
@@ -86,15 +86,14 @@ int main() {
                 break;
             }
             case (ORDER_SUMMARY): {
-                printOrder(b.username, food.FoodOption, food.FoodPrice, d.Drinks,
-                           d.DrinkPrice, b.additionalInfo, specific.Cutlery, specific.Food, specific.Type, specific.Drink, d.NoOfDrinks);
+                printOrder(b, specific, food, drink);
                 orderConfirmation(&state, &orderPlaced);
                 break;
             }
         }
     }
     // freeing the memory
-    freeDrinks(&d);
+    freeDrinks(&drink);
     freeSpecificFood(&food, type.noOfFoodTypes);
     freeFoodType(&type);
     printf("Order confirmed! Thank you for buying from us, %s!", b.username);

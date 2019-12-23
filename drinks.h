@@ -6,8 +6,8 @@
 #define FOOD_ORDERING_DRINKS_H
 
 typedef struct _drinks{
-    int  NoOfDrinks, NoOfDrinkOptions;
-    double *DrinkPrice;
+    int  noOfDrinks, noOfDrinkOptions;
+    double *drinkPrice;
     char **Drinks;
 }drinks;
 void freeDrinks( drinks *d);
