@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include "input.h"
 #include "option.h"
 #include "order.h"
@@ -26,16 +25,16 @@ int main() {
     if (f) {
         // reading food
         fscanf(f, "%d:\n", &type.noOfFoodTypes);
-        storeFoodAndPricesFromInput(&food.noOfFoodOptions, &type.foodType, &food.foodOption, &food.foodPrice, type.noOfFoodTypes, f);
+        storeFoodAndPricesFromInput(&food, &type, f);
         fscanf(f, "%d:\n", &drink.noOfDrinks);
-        storeDrinksAndPricesFromInput(&drink.Drinks, drink.noOfDrinks,  &drink.drinkPrice, &drink.noOfDrinkOptions, f);
+        storeDrinksAndPricesFromInput(&drink, f);
 
     } else {
         printf("%s:\n", LOAD_DATA); // same steps but from the console
         fscanf(stdin, "%d:\n", &type.noOfFoodTypes);
-        storeFoodAndPricesFromInput(&food.noOfFoodOptions, &type.foodType, &food.foodOption, &food.foodPrice, type.noOfFoodTypes, stdin);
+        storeFoodAndPricesFromInput(&food, &type, stdin);
         fscanf(stdin, "%d:\n", &drink.noOfDrinks);
-        storeDrinksAndPricesFromInput(&drink.Drinks, drink.noOfDrinks,  &drink.drinkPrice, &drink.noOfDrinkOptions, stdin);
+        storeDrinksAndPricesFromInput(&drink, stdin);
     }
     fclose(f);
     f = fopen("users.txt", "r");
