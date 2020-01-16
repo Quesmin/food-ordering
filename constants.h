@@ -25,6 +25,6 @@
 #define INCORRECT_PASSWORD	"Incorrect password"
 #define MAX_USERNAME 20
 #define MAX_PASSWORD 20
-#define SIZE_OF_USERS_NUMBER 10
+#define MAX_ADD_INFO 30
 
 #endif //FOOD_ORDERING_CONSTANTS_H

@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "constants.h"
+#include "food.h"
+#include "drinks.h"
 
 void readFoodTypeAndNo(char **food, int *number, FILE *f)
 {
@@ -92,15 +94,6 @@ void getDrinksAndPrice(char *Line, char ***Drinks, double **DrinkPrices)
         i = i+3; // jump over ", ("
     }
 }
-void userCredentialsStep (char username[], char password[], int *state)
-{
-    printf("--Username:\n");
-    gets(username);
-    printf("--Password:\n");
-    gets(password);
-
-    (*state)++;
-}
 
 int getChoiceIndex(int noOfFoodTypes, int *state)
 {
@@ -121,30 +114,30 @@ void getAdditionalInfo(char AddInfo[])
     printf("Any additional info?\n");
     gets(AddInfo);
 }
-void storeFoodAndPricesFromInput(int **NoOfFoodOptions, char ***FoodType, char ****FoodOption, double ***FoodPrice, int NoOfFoodTypes, FILE *f)
+void storeFoodAndPricesFromInput(specificFood *food, foodType *type, FILE *f)
 {
-    *NoOfFoodOptions = (int *) malloc(NoOfFoodTypes * sizeof(int));
-    *FoodType = (char **) malloc(NoOfFoodTypes * sizeof(char *));
-    *FoodOption = (char ***) malloc(NoOfFoodTypes * sizeof(char **));
-    *FoodPrice = (double **) malloc(NoOfFoodTypes * sizeof(double *));
-    for (int i = 0; i < NoOfFoodTypes; i++) {
-        (*FoodType)[i] = (char *) malloc(MAX_FOOD_TYPE_NAME * sizeof(char));
-        readFoodTypeAndNo(&(*FoodType)[i],&(*NoOfFoodOptions)[i], f);
+    food->noOfFoodOptions = (int *) malloc(type->noOfFoodTypes * sizeof(int));
+    type->foodType = (char **) malloc(type->noOfFoodTypes * sizeof(char *));
+    food->foodOption = (char ***) malloc(type->noOfFoodTypes * sizeof(char **));
+    food->foodPrice = (double **) malloc(type->noOfFoodTypes * sizeof(double *));
+    for (int i = 0; i < type->noOfFoodTypes; i++) {
+        type->foodType[i] = (char *) malloc(MAX_FOOD_TYPE_NAME * sizeof(char));
+        readFoodTypeAndNo(&type->foodType[i],&food->noOfFoodOptions[i], f);
         char Line[100];
         fscanf(f, "%[^\n]", Line);
         fgetc(f);
-        (*FoodOption)[i] = (char **) malloc((*NoOfFoodOptions)[i] * sizeof(char *));
-        (*FoodPrice)[i] = (double *) malloc((*NoOfFoodOptions)[i] * sizeof(double));
-        getFoodAndPrice(Line, (*FoodOption)[i], (*FoodPrice)[i]);
+        food->foodOption[i] = (char **) malloc(food->noOfFoodOptions[i] * sizeof(char *));
+        food->foodPrice[i] = (double *) malloc(food->noOfFoodOptions[i] * sizeof(double));
+        getFoodAndPrice(Line, food->foodOption[i], food->foodPrice[i]);
     }
 }
-void storeDrinksAndPricesFromInput(char ***Drinks, int NoOfDrinks, double **DrinkPrice, int *NoOfDrinkOptions, FILE *f)
+void storeDrinksAndPricesFromInput(drinks *drink, FILE *f)
 {
-    *Drinks = (char **) malloc(NoOfDrinks * sizeof(char *));
-    *DrinkPrice = (double *) malloc(NoOfDrinks * sizeof(double));
+    drink->Drinks = (char **) malloc(drink->noOfDrinks * sizeof(char *));
+    drink->drinkPrice = (double *) malloc(drink->noOfDrinks * sizeof(double));
     char Line[100];
     fscanf(f, "%[^\n]", Line); // same process as the above
     fgetc(f);
-    getDrinksAndPrice(Line, Drinks, DrinkPrice);
-    *NoOfDrinkOptions = NoOfDrinks + 1;
+    getDrinksAndPrice(Line, &drink->Drinks, &drink->drinkPrice);
+    drink->noOfDrinkOptions = drink->noOfDrinks + 1;
 }

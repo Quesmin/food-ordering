@@ -2,41 +2,42 @@
 // Created by Cosmin on 05-Nov-19.
 //
 #include <stdio.h>
-#include "constants.h"
+#include "food.h"
+#include "drinks.h"
 
-void printFoodTypes(int noOfFoodTypes, char **FoodType)
+void printFoodTypes(foodType f)
 {
     printf("Please choose the food you feel like eating today:\n");
-    for(int i=0;i<noOfFoodTypes;i++)
+    for(int i=0;i<f.noOfFoodTypes;i++)
     {
         putchar('a'+i);
-        printf(") %s\n", FoodType[i]);
+        printf(") %s\n", f.foodType[i]);
     }
-    printf("%c) Go back\n", 'a'+noOfFoodTypes);
+    printf("%c) Go back\n", 'a'+f.noOfFoodTypes);
 }
 
-void printFoodOptions(int noOfFoodOptions[], double **FoodPrice, char ***FoodOption, int Food)
+void printFoodOptions(specificFood food, int Food)
 {
-    for(int i=0; i<noOfFoodOptions[Food]; i++)
+    for(int i=0; i<food.noOfFoodOptions[Food]; i++)
     {
         putchar('a'+i);
-        printf(") %s: %.2f RON\n", FoodOption[Food][i], FoodPrice[Food][i]);
+        printf(") %s: %.2f RON\n", food.foodOption[Food][i], food.foodPrice[Food][i]);
     }
-    putchar('a' + noOfFoodOptions[Food]);
+    putchar('a' + food.noOfFoodOptions[Food]);
     printf(") Go back\n");
 }
 
-void printDrinkOptions(int noOfDrinks, double *DrinkPrice, char **Drinks)
+void printDrinkOptions(drinks d)
 {
-    for(int i=0; i<noOfDrinks; i++)
+    for(int i=0; i<d.noOfDrinks; i++)
     {
         putchar('a'+i);
-        printf(") %s: %.2f RON\n", Drinks[i], DrinkPrice[i]);
+        printf(") %s: %.2f RON\n", d.Drinks[i], d.drinkPrice[i]);
     }
-    putchar('a'+ noOfDrinks);
+    putchar('a'+ d.noOfDrinks);
     printf(") No, thanks!\n");
 
-    putchar('a' + noOfDrinks +1);
+    putchar('a' + d.noOfDrinks +1);
     printf(") Go back\n");
 }
 
